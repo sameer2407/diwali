@@ -15,6 +15,7 @@ const DiwaliGreeting = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Fixed positions for stars
   const starPositions = [
     { left: "10%", top: "20%" },
     { left: "20%", top: "40%" },
@@ -39,12 +40,13 @@ const DiwaliGreeting = () => {
   ];
 
   if (!mounted) {
-    return null;
+    return null; // Prevent hydration issues by not rendering until client-side
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-900 to-blue-800 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-30">
+    <div className="min-h-screen bg-purple-900 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 opacity-20">
         {starPositions.map((position, i) => (
           <div
             key={i}
@@ -54,40 +56,40 @@ const DiwaliGreeting = () => {
               top: position.top,
             }}
           >
-            <Star className="text-yellow-300" size={30} />
+            <Star className="text-yellow-200" size={25} />
           </div>
         ))}
       </div>
 
+      {/* Main content */}
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="text-center">
-          <h1 className="text-6xl font-bold text-yellow-400 mb-8 animate-bounce">
+          <h1 className="text-6xl font-bold text-yellow-300 mb-8 animate-bounce">
             Happy Diwali!
           </h1>
-          <p className="text-xl text-yellow-200 mb-12">
+          <p className="text-xl text-yellow-100 mb-12">
             May the festival of lights bring joy, prosperity, and happiness to
             your life
           </p>
 
+          {/* Diya row */}
           <div className="flex justify-center gap-8 mb-16">
             {[...Array(5)].map((_, i) => (
-              <div
-                key={i}
-                className="relative transition-transform transform hover:scale-110"
-              >
+              <div key={i} className="relative">
                 <div className="w-16 h-4 bg-orange-700 rounded-full transform rotate-180" />
                 <div className="w-8 h-8 bg-orange-500 rounded-full absolute -top-6 left-4">
-                  <div className="w-4 h-8 bg-yellow-300 rounded-full absolute left-2 animate-flame" />
+                  <div className="w-4 h-8 bg-yellow-300 rounded-full absolute left-2 animate-[flame_0.5s_ease-in-out_infinite]" />
                 </div>
               </div>
             ))}
           </div>
 
+          {/* Rangoli */}
           <div className="w-64 h-64 mx-auto mb-12 relative">
             {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-full h-full border-4 border-yellow-400 rounded-full"
+                className="absolute w-full h-full border-4 border-yellow-300 rounded-full"
                 style={{
                   transform: `rotate(${i * 45}deg)`,
                   opacity: 0.7,
@@ -95,29 +97,24 @@ const DiwaliGreeting = () => {
               />
             ))}
             <Sun
-              className="absolute inset-1/4 text-yellow-400 animate-spin"
+              className="absolute inset-1/4 text-yellow-300 animate-spin"
               size={64}
             />
           </div>
 
+          {/* Fireworks */}
           {showFirework && (
             <div className="absolute inset-0 pointer-events-none">
               {[...Array(10)].map((_, i) => {
-                const colors = [
-                  "#FFD700",
-                  "#FF6B6B",
-                  "#4ECDC4",
-                  "#FF8C00",
-                  "#8A2BE2",
-                ];
+                const colors = ["#FFD700", "#FF6B6B", "#4ECDC4"];
                 return (
                   <div
                     key={i}
-                    className="absolute h-2 w-2 rounded-full animate-firework"
+                    className="absolute h-1 w-1 rounded-full animate-[firework_1s_ease-out_forwards]"
                     style={{
                       left: `${i * 10 + 5}%`,
                       top: `${i * 10 + 5}%`,
-                      backgroundColor: colors[i % colors.length],
+                      backgroundColor: colors[i % 3],
                     }}
                   />
                 );
